@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Listado de Utilerías</h2>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for utileria in utilerias %}
+            <tr>
+                <td><a href="{% url 'detalle_utileria' utileria.id %}">{{ utileria.codigo }}</a></td>
+                <td>{{ utileria.descripcion }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'agregar_utileria' %}'"> Agregar </button>
+{% endblock %}

@@ -1,0 +1,13 @@
+    {% extends 'base.html' %}
+    {% block content %}
+    <h1>Detalles de Utilería</h1>
+    <p><strong>Código:</strong> {{ utileria.codigo }}</p>
+    <p><strong>Descripción:</strong> {{ utileria.descripcion }}</p>
+
+    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'editar_utileria' utileria.id %}'">Editar</button>
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" name="delete_utileria" value="Eliminar Utilería">
+    </form>
+    {% endblock %}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión</title>
+</head>
+<body>
+    <h2>Iniciar Sesión</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.username.label_tag }}
+        {{ form.username }}
+        <br>
+        {{ form.password.label_tag }}
+        {{ form.password }}
+        <br>
+        <button type="submit">Iniciar Sesión</button>
+    </form>
+    <p>¿No tienes cuenta? <a href="{% url 'registro' %}"><button type="button">Registrarse</button></a></p>
+</body>
+</html>
+
+
+

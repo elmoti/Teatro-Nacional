@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Reservas Pendientes</h2>
+    <ul>
+        {% for reserva in reservas_pendientes %}
+            <li>{{ reserva.utileria }} - {{ reserva.fecha }} - {{ reserva.hora_inicio }} a {{ reserva.hora_fin }}
+                <a href="{% url 'cambiar_estado_reserva' reserva.id %}" class="btn btn-info">Gestionar</a>
+            </li>
+        {% empty %}
+            <li>No hay reservas pendientes.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Reservas Aprobadas</h2>
+    <ul>
+        {% for reserva in reservas_aprobadas %}
+            <li>{{ reserva.utileria }} - {{ reserva.fecha }} - {{ reserva.hora_inicio }} a {{ reserva.hora_fin }} - Aprobada</li>
+        {% empty %}
+            <li>No hay reservas aprobadas.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Reservas Denegadas</h2>
+    <ul>
+        {% for reserva in reservas_denegadas %}
+            <li>{{ reserva.utileria }} - {{ reserva.fecha }} - {{ reserva.hora_inicio }} a {{ reserva.hora_fin }} - Denegada</li>
+        {% empty %}
+            <li>No hay reservas denegadas.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
