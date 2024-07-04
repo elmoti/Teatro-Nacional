@@ -1,11 +1,30 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from .forms import LoginForm
+from .forms import LoginForm , UsuarioForm
 from .forms import RegistroForm, EditarUsuarioForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Usuario
 from django.contrib import messages
 
+def perfil(request):
+    usuario = request.user
+    return render(request, 'login_signup/perfil.html', {'usuario': usuario})
+
+def editar_perfil(request, usuario_id):
+    usuario = get_object_or_404(Usuario, id=usuario_id)
+
+    if request.method == 'POST':
+        form = UsuarioForm(request.POST, instance=usuario)
+        if form.is_valid():
+            form.save()
+            return redirect('perfil') 
+    else:
+        form = UsuarioForm(instance=usuario)
+    context = {
+        'form': form,
+        'usuario': usuario
+    }
+    return render(request, 'login_signup/editar_perfil.html', context)
 
 
 def registro(request):

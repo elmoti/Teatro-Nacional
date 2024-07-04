@@ -3,6 +3,11 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
 from .models import Usuario
 
+class UsuarioForm(forms.ModelForm):
+    class Meta:
+        model = Usuario
+        fields = ['nombre', 'email']
+        
 class RegistroForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Requerido. Ingrese un correo válido.')
     nombre = forms.CharField(max_length=100, help_text='Requerido. Ingrese su nombre completo.')

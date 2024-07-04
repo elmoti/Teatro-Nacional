@@ -1,23 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Listado de Utilerías</h2>
+    <h2 class="text-2xl font-bold mb-4">Listado de Utilerías</h2>
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Código</th>
-                <th>Descripción</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for utileria in utilerias %}
-            <tr>
-                <td><a href="{% url 'detalle_utileria' utileria.id %}">{{ utileria.codigo }}</a></td>
-                <td>{{ utileria.descripcion }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'agregar_utileria' %}'"> Agregar </button>
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-200">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="border-b border-gray-200 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Código</th>
+                    <th class="border-b border-gray-200 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for utileria in utilerias %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="border-b border-gray-200 px-6 py-4 whitespace-nowrap"><a href="{% url 'detalle_utileria' utileria.id %}" class="text-blue-500 hover:underline">{{ utileria.codigo }}</a></td>
+                        <td class="border-b border-gray-200 px-6 py-4 whitespace-nowrap">{{ utileria.descripcion }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <button type="button" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200" onclick="location.href='{% url 'agregar_utileria' %}'">Agregar Utilería</button>
 {% endblock %}

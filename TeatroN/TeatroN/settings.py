@@ -30,7 +30,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'utileria',
     'login_signup',
-
     ]
 
 MIDDLEWARE = [

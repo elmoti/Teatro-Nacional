@@ -1,8 +1,9 @@
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import Utileria, ReservaUtileria
+from .models import Utileria, ReservaUtileria, ObraTeatro, DirectorObra
 from .forms import UtileriaForm
-from .forms import ReservarUtileriaForm
-from .forms import AprobarReservaForm
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
 
 def home(request):
     return render(request, 'utileria/home.html')
@@ -47,40 +48,34 @@ def editar_utileria(request, utileria_id):
         form = UtileriaForm(instance=utileria)
     return render(request, 'utileria/editar_utileria.html', {'form': form, 'utileria': utileria})
 
-def reservar_utileria(request):
-    if request.method == 'POST':
-        form = ReservarUtileriaForm(request.POST)
-        if form.is_valid():
-            reserva = form.save(commit=False)
-            reserva.director_obra = request.user
-            reserva.save()
-            return redirect('listar_utilerias')
-    else:
-        form = ReservarUtileriaForm()
-    
-    return render(request, 'utileria/reservar_utileria.html', {'form': form})
-
-def gestionar_reservas(request):
-    reservas_pendientes = ReservaUtileria.objects.filter(estado='pendiente')
-    reservas_aprobadas = ReservaUtileria.objects.filter(estado='aprobada')
-    reservas_denegadas = ReservaUtileria.objects.filter(estado='denegada')
-
-    return render(request, 'utileria/gestionar_reservas.html', {
-        'reservas_pendientes': reservas_pendientes,
-        'reservas_aprobadas': reservas_aprobadas,
-        'reservas_denegadas': reservas_denegadas,
-    })
-
-
-def cambiar_estado_reserva(request, reserva_id):
-    reserva = get_object_or_404(ReservaUtileria, pk=reserva_id)
+@login_required
+def reservar_utileria(request, utileria_id):
+    utileria = get_object_or_404(Utileria, id=utileria_id)
+    obras = ObraTeatro.objects.all()
     
     if request.method == 'POST':
-        form = AprobarReservaForm(request.POST, instance=reserva)
-        if form.is_valid():
-            form.save()
-            return redirect('gestionar_reservas')
-    else:
-        form = AprobarReservaForm(instance=reserva)
+        obra_id = request.POST.get('obra_id')
+        obra = get_object_or_404(ObraTeatro, id=obra_id)
+        
+        if request.user.rol == 'Director_Obra':
+            director_obra = get_object_or_404(DirectorObra, usuario=request.user)
+       
+            
+        fecha_reserva = request.POST.get('fecha_reserva')
+        estado = request.POST.get('estado', 'pendiente')
+        
+        reserva = ReservaUtileria(
+            obra=obra,
+            utileria=utileria,
+            director_obra=director_obra,
+            fecha_reserva=fecha_reserva,
+            estado=estado
+        )
+        reserva.save()
+        return redirect('detalle_utileria', utileria_id=utileria.id)
     
-    return render(request, 'utileria/cambiar_estado_reserva.html', {'form': form})
+    context = {
+        'utileria': utileria,
+        'obras': obras,
+    }
+    return render(request, 'utileria/reservar_utileria.html', context)

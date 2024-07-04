@@ -1,10 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Reservar Utilería</h2>
+    <h2>Reservar Utilería: {{ utileria.codigo }}</h2>
+
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Guardar Reserva</button>
+        <div>
+            <label for="obra_id">Obra de Teatro</label>
+            <select name="obra_id" id="obra_id" required>
+                {% for obra in obras %}
+                    <option value="{{ obra.id }}">{{ obra.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="fecha_reserva">Fecha de Reserva</label>
+            <input type="date" id="fecha_reserva" name="fecha_reserva" required>
+        </div>
+        <input type="hidden" name="estado" value="pendiente">
+        <button type="submit">Reservar</button>
     </form>
 {% endblock %}

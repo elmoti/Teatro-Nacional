@@ -1,10 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Editar Utilería</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Guardar cambios</button>
-    </form>
+    <h2 class="text-2xl font-bold mb-4">Editar Utilería</h2>
+
+    <div class="max-w-lg mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-4">
+                {{ form.codigo.label_tag }}
+                {{ form.codigo }}
+                {% if form.codigo.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.codigo.errors }}</p>
+                {% endif %}
+            </div>
+            <div class="mb-4">
+                {{ form.descripcion.label_tag }}
+                {{ form.descripcion }}
+                {% if form.descripcion.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.descripcion.errors }}</p>
+                {% endif %}
+            </div>
+            <div class="mb-4">
+                {{ form.cantidad.label_tag }}
+                {{ form.cantidad }}
+                {% if form.cantidad.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.cantidad.errors }}</p>
+                {% endif %}
+            </div>
+            <div class="mb-4">
+                {{ form.precio.label_tag }}
+                {{ form.precio }}
+                {% if form.precio.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.precio.errors }}</p>
+                {% endif %}
+            </div>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Guardar cambios
+            </button>
+
+            <button type="button" onclick="window.history.back();" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-2">
+                Atrás
+            </button>
+        </form>
+    </div>
 {% endblock %}

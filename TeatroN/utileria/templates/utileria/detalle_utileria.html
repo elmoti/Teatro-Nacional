@@ -1,13 +1,25 @@
-    {% extends 'base.html' %}
-    {% block content %}
-    <h1>Detalles de Utilería</h1>
-    <p><strong>Código:</strong> {{ utileria.codigo }}</p>
-    <p><strong>Descripción:</strong> {{ utileria.descripcion }}</p>
+{% extends 'base.html' %}
 
-    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'editar_utileria' utileria.id %}'">Editar</button>
+{% block content %}
+    <h2 class="text-2xl font-bold mb-4">Detalles de Utilería</h2>
 
-    <form method="post">
-        {% csrf_token %}
-        <input type="submit" name="delete_utileria" value="Eliminar Utilería">
-    </form>
-    {% endblock %}
+    <div class="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <p class="mb-4"><strong>Código:</strong> {{ utileria.codigo }}</p>
+        <p class="mb-4"><strong>Descripción:</strong> {{ utileria.descripcion }}</p>
+
+        <div class="flex">
+            <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4" onclick="location.href='{% url 'editar_utileria' utileria.id %}'">
+                Editar
+            </button>
+
+            <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4" onclick="location.href='{% url 'reservar_utileria' utileria.id %}'">
+                Reservar utileria
+            </button>
+            
+            <form method="post">
+                {% csrf_token %}
+                <input type="submit" name="delete_utileria" value="Eliminar Utilería" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+            </form>
+        </div>
+    </div>
+{% endblock %}

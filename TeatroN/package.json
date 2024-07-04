@@ -1,0 +1,16 @@
+{
+  "name": "teatron",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tailwind build ./utileria/static/utileria/src/tw.css -o ./utileria/static/utileria/src/style.css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "tailwindcss": "^2.2.19"
+  }
+}
