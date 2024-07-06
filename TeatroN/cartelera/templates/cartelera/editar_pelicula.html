@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 class="text-2xl font-bold mb-4">Editar Pelicula: {{ pelicula.nombre }}</h2>
+    <div class="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="imagen" class="block text-gray-700 font-bold mb-2">Foto:</label>
+                {% if pelicula.imagen %}
+                    <img id="current-image" src="{{ pelicula.imagen.url }}" alt="{{ pelicula.nombre }}" class="mb-2 w-32 h-32 object-cover">
+                {% endif %}
+                <img id="image-preview" src="#" alt="Vista previa" class="hidden mb-2 w-32 h-32 object-cover">
+                <input type="file" id="imagen" name="imagen" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onchange="previewImage(event)">
+            </div>
+            <div class="mb-4">
+                <label for="nombre" class="block text-gray-700 font-bold mb-2">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" value="{{ pelicula.nombre }}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-4">
+                <label for="duracion" class="block text-gray-700 font-bold mb-2">Duración:</label>
+                <input type="time" id="duracion" name="duracion" value="{{ pelicula.duracion }}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-4">
+                <label for="realizador" class="block text-gray-700 font-bold mb-2">Realizador:</label>
+                <input type="text" id="realizador" name="realizador" value="{{ pelicula.realizador }}"
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="flex items-center justify-between">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Guardar
+                </button>
+            </div>
+        </form>
+    </div>
+    <script>
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function(){
+                var output = document.getElementById('image-preview');
+                output.src = reader.result;
+                output.classList.remove('hidden');
+                var currentImage = document.getElementById('current-image');
+                if (currentImage) {
+                    currentImage.classList.add('hidden');
+                }
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+{% endblock %}

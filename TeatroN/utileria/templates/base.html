@@ -13,7 +13,9 @@
                 <a href="{% url 'home' %}" class="text-lg font-bold text-white">Teatro Nacional de Cuba</a>
                 <nav class="hidden md:flex space-x-4">
                     <a href="{% url 'home' %}" class="hover:text-gray-300">Inicio</a>
+                    <a href="{% url 'listar_cartelera' %}" class="hover:text-gray-300" >Cartelera</a>
                     <a href="{% url 'acercade' %}" class="hover:text-gray-300">Acerca de</a>
+                    
                 </nav>
             </div>
             <div class="flex items-center space-x-4">
@@ -55,15 +57,8 @@
         {% endblock %}
     </main>
     
-    <footer class="bg-blue-500 text-white text-center p-4">
-        <p class="text-sm">&copy; {{ year }} Todos los derechos reservados.</p>
-    </footer>
-
-    <script>
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        });
-    </script>
+    <footer class="bg-blue-500 text-white text-center p-4 w-full">
+        <p class="text-sm">&copy; Todos los derechos reservados. {{ year }}</p>
+    </footer>      
 </body>
 </html>

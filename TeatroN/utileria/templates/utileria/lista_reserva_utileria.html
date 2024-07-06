@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+    <h2 class="text-2xl font-bold mb-6 text-center">Supervisar Reservas de Utilería</h2>
+    
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+            <thead>
+                <tr class="bg-blue-500 text-white">
+                    <th class="py-2 px-4 border-b text-left">Obra</th>
+                    <th class="py-2 px-4 border-b text-left">Utilería</th>
+                    <th class="py-2 px-4 border-b text-left">Director de Obra</th>
+                    <th class="py-2 px-4 border-b text-left">Fecha de Reserva</th>
+                    <th class="py-2 px-4 border-b text-left">Estado</th>
+                    <th class="py-2 px-4 border-b text-right">Acciones</th>
+                    <th class="py-2 px-4 border-b text-center"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reserva in reservas %}
+                <tr class="hover:bg-gray-100">
+                    <td class="py-2 px-4 border-b">{{ reserva.obra.nombre }}</td>
+                    <td class="py-2 px-4 border-b">{{ reserva.utileria.codigo }}</td>
+                    <td class="py-2 px-4 border-b">{{ reserva.director_obra.nombre }}</td>
+                    <td class="py-2 px-4 border-b">{{ reserva.fecha_reserva }}</td>
+                    <td class="py-2 px-4 border-b">{{ reserva.estado }}</td>
+                    <td class="py-2 px-4 border-b text-left">
+                        <a href="{% url 'editar_reserva' reserva.id %}" class="text-blue-500 hover:underline">Editar</a>
+                    </td>
+                    <td class="py-2 px-4 border-b text-left">
+                        <a href="{% url 'eliminar_reserva' reserva.id %}" class="text-red-500 hover:underline">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

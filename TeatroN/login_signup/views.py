@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from .forms import LoginForm , UsuarioForm
-from .forms import RegistroForm, EditarUsuarioForm
-from django.contrib.auth.decorators import login_required, user_passes_test
+from .forms import LoginForm , UsuarioForm, RegistroForm, EditarUsuarioForm
+from django.contrib.auth.decorators import login_required
 from .models import Usuario
 from django.contrib import messages
 
@@ -61,7 +60,6 @@ def logout_view(request):
     return redirect('login')
 
 @login_required
-@user_passes_test(lambda u: u.is_superuser)
 def editar_usuario(request, usuario_id):
     usuario = get_object_or_404(Usuario, id=usuario_id)
     if request.method == 'POST':
@@ -75,7 +73,6 @@ def editar_usuario(request, usuario_id):
     return render(request, 'login_signup/editar_usuario.html', {'form': form, 'usuario': usuario})
 
 @login_required
-@user_passes_test(lambda u: u.is_superuser)
 def procesar_usuarios(request):
     if request.method == 'POST':
         usuarios_seleccionados = request.POST.getlist('usuarios_seleccionados')
@@ -87,8 +84,7 @@ def procesar_usuarios(request):
     else:
         return redirect('lista_usuarios')
 
-@login_required
-@user_passes_test(lambda u: u.is_superuser)    
+@login_required   
 def eliminar_usuario(request, usuario_id):
     usuario = get_object_or_404(Usuario, id=usuario_id)
     if request.method == 'POST':
@@ -98,7 +94,6 @@ def eliminar_usuario(request, usuario_id):
     return render(request, 'login_signup/eliminar_usuario.html', {'usuario': usuario})
 
 @login_required
-@user_passes_test(lambda u: u.is_superuser)
 def lista_usuarios(request):
     usuarios = Usuario.objects.all()
     return render(request, 'login_signup/lista_usuarios.html', {'usuarios': usuarios})

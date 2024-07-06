@@ -1,23 +1,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Reservar Utilería: {{ utileria.codigo }}</h2>
+    <div class="container mx-auto p-6">
+        <h2 class="text-2xl font-bold mb-6 text-center">Reservar Utilería: {{ utileria.codigo }}</h2>
 
-    <form method="post">
-        {% csrf_token %}
-        <div>
-            <label for="obra_id">Obra de Teatro</label>
-            <select name="obra_id" id="obra_id" required>
-                {% for obra in obras %}
-                    <option value="{{ obra.id }}">{{ obra.nombre }}</option>
-                {% endfor %}
-            </select>
+        <div class="max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden p-6">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="obra_id" class="block text-gray-700 text-sm font-bold mb-2">Obra de Teatro:</label>
+                    <select name="obra_id" id="obra_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                        {% for obra in obras %}
+                            <option value="{{ obra.id }}">{{ obra.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="fecha_reserva" class="block text-gray-700 text-sm font-bold mb-2">Fecha de Reserva:</label>
+                    <input type="date" id="fecha_reserva" name="fecha_reserva" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                </div>
+                <input type="hidden" name="estado" value="pendiente">
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200">
+                        Reservar
+                    </button>
+                </div>
+            </form>
         </div>
-        <div>
-            <label for="fecha_reserva">Fecha de Reserva</label>
-            <input type="date" id="fecha_reserva" name="fecha_reserva" required>
-        </div>
-        <input type="hidden" name="estado" value="pendiente">
-        <button type="submit">Reservar</button>
-    </form>
+    </div>
 {% endblock %}

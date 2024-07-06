@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class = 'pb-3'>
+    <h2>Listado de Obras de Teatro</h2>
+</div>
+    <div class="overflow-x-auto pb-8">
+        <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+            <thead>
+                <tr class="bg-blue-500 text-white">
+                    <th class="py-2 px-4 border-b text-left"></th>
+                    <th class="py-2 px-4 border-b text-left">Nombre</th>
+                    <th class="py-2 px-4 border-b text-left">Género</th>
+                    <th class="py-2 px-4 border-b text-left">Descripcion</th>
+                    <th class="py-2 px-4 border-b text-right">Acciones</th>
+                    <th class="py-2 px-4 border-b text-left"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for obra in obras %}
+                <tr class="hover:bg-gray-100">
+                    <td class="py-2 px-4 border-b text-left">
+                        {% if obra.imagen %}
+                            <img src="{{ obra.imagen.url }}" alt="{{ obra.nombre }}" class="w-16 h-16 object-cover">
+                        {% else %}
+                            No image
+                        {% endif %}
+                    </td>
+                    <td class="py-2 px-4 border-b text-left">{{ obra.nombre }}</td>
+                    <td class="py-2 px-4 border-b text-left">{{ obra.genero }}</td>
+                    <td class="py-2 px-4 border-b text-left">{{ obra.descripcion }}</td>
+                    <td class="py-2 px-4 border-b text-left">
+                        <a href="{% url 'editar_obra' obra.id %}" class="text-blue-500 hover:underline">Editar</a>
+                    </td>
+                    <td class="py-2 px-4 border-b text-left">
+                        <a href="{% url 'eliminar_obra' obra.id %}" class="text-red-500 hover:underline">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200 mt-4" onclick="location.href='{% url 'agregar_obra_teatro' %}'">
+            Agregar Obra
+        </button>
+    </div>
+{% endblock %}
+

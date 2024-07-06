@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mx-auto p-6">
+        <h2 class="text-2xl font-bold mb-6 text-center">Agregar Película</h2>
+        <form method="post" enctype="multipart/form-data" class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="imagen" class="block text-gray-700 font-bold mb-2">Foto:</label>
+                <input type="file" id="imagen" name="imagen" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                       onchange="previewImage(event)">
+                <div class="mt-4">
+                    <img id="image-preview" src="#" alt="Vista previa de la imagen" class="hidden w-48 h-48 object-cover border border-gray-300">
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="nombre" class="block text-gray-700 font-bold mb-2">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" value="{{ pelicula.nombre }}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-4">
+                <label for="duracion" class="block text-gray-700 font-bold mb-2">Duración:</label>
+                <input type="time" id="duracion" name="duracion" value="{{ pelicula.duracion }}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-4">
+                <label for="realizador" class="block text-gray-700 font-bold mb-2">Realizador:</label>
+                <input type="text" id="realizador" name="realizador" value="{{ pelicula.realizador }}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="flex justify-center">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Guardar
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function(){
+                var output = document.getElementById('image-preview');
+                output.src = reader.result;
+                output.classList.remove('hidden');
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+{% endblock %}

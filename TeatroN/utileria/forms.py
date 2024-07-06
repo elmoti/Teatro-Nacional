@@ -1,7 +1,8 @@
 from django import forms
-from utileria.models import Utileria
+from utileria.models import ReservaUtileria
 
-class UtileriaForm(forms.ModelForm):
+
+class ReservaUtileriaForm(forms.ModelForm):
     class Meta:
-        model = Utileria
-        fields = '__all__'
+        model = ReservaUtileria
+        fields = ['estado']

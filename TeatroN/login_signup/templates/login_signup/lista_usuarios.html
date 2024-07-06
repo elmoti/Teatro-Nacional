@@ -1,33 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Lista de Usuarios</h2>
-<form method="POST" action="{% url 'procesar_usuarios' %}">
-    {% csrf_token %}
-    <table>
-        <thead>
-            <tr>
-                <th>Seleccionar</th>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Rol</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for usuario in usuarios %}
-            <tr>
-                <td><input type="checkbox" name="usuarios_seleccionados" value="{{ usuario.id }}"></td>
-                <td>{{ usuario.nombre }}</td>
-                <td>{{ usuario.email }}</td>
-                <td>{{ usuario.rol }}</td>
-                <td>
-                    <a href="{% url 'editar_usuario' usuario.id %}">Editar</a>
-                    <a href="{% url 'eliminar_usuario' usuario.id %}" onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?');">Eliminar</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</form>
+<div class="container mx-auto p-6">
+    <h2 class="text-2xl font-bold mb-6 text-center">Lista de Usuarios</h2>
+    
+    <form method="POST" action="{% url 'procesar_usuarios' %}">
+        {% csrf_token %}
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+                <thead>
+                    <tr class="bg-blue-500 text-white">
+                        <th class="py-2 px-4 border-b text-left">Nombre</th>
+                        <th class="py-2 px-4 border-b text-left">Email</th>
+                        <th class="py-2 px-4 border-b text-left">Rol</th>
+                        <th class="py-2 px-4 border-b text-left">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuario in usuarios %}
+                    <tr class="hover:bg-gray-100">
+                        <td class="py-2 px-4 border-b text-left">{{ usuario.nombre }} </td>
+                        <td class="py-2 px-4 border-b text-left">{{ usuario.email }}</td>
+                        <td class="py-2 px-4 border-b text-left">{{ usuario.rol }}</td>
+                        <td class="py-2 px-4 border-b flex space-x-2 text-left">
+                            <a href="{% url 'editar_usuario' usuario.id %}" class="text-blue-500 hover:underline">Editar</a>
+                        </td>
+                        <td class="py-2 px-4 border-b flex space-x-2 text-left">
+                            <a href="{% url 'eliminar_usuario' usuario.id %}" class="text-red-500 hover:underline" onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?');">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>  
+    </form>
+</div>
 {% endblock %}

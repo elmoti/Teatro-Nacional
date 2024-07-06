@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import Utileria, ReservaUtileria, ObraTeatro, DirectorObra
-from .forms import UtileriaForm
+from .models import Utileria, ReservaUtileria, ObraTeatro
+from .forms import ReservaUtileriaForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
@@ -25,28 +25,23 @@ def detalle_utileria(request, utileria_id):
 
     return render(request, 'utileria/detalle_utileria.html', {'utileria': utileria})
 
-
 def agregar_utileria(request):
     if request.method == 'POST':
-        form = UtileriaForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('listar_utilerias') 
-    else:
-        form = UtileriaForm()
-
-    return render(request, 'utileria/agregar_utileria.html', {'form': form})
+        codigo = request.POST.get('codigo')
+        descripcion = request.POST.get('descripcion')
+        nueva_utileria = Utileria(codigo=codigo, descripcion=descripcion)
+        nueva_utileria.save()
+        return redirect('listar_utilerias')
+    return render(request, 'utileria/agregar_utileria.html')
 
 def editar_utileria(request, utileria_id):
     utileria = get_object_or_404(Utileria, id=utileria_id)
     if request.method == 'POST':
-        form = UtileriaForm(request.POST, instance=utileria)
-        if form.is_valid():
-            form.save()
-            return redirect('detalle_utileria', utileria_id=utileria.id)
-    else:
-        form = UtileriaForm(instance=utileria)
-    return render(request, 'utileria/editar_utileria.html', {'form': form, 'utileria': utileria})
+        utileria.codigo = request.POST.get('codigo')
+        utileria.descripcion = request.POST.get('descripcion')
+        utileria.save()
+        return redirect('detalle_utileria', utileria_id=utileria.id)
+    return render(request, 'utileria/editar_utileria.html', {'utileria': utileria})
 
 @login_required
 def reservar_utileria(request, utileria_id):
@@ -56,14 +51,9 @@ def reservar_utileria(request, utileria_id):
     if request.method == 'POST':
         obra_id = request.POST.get('obra_id')
         obra = get_object_or_404(ObraTeatro, id=obra_id)
-        
-        if request.user.rol == 'Director_Obra':
-            director_obra = get_object_or_404(DirectorObra, usuario=request.user)
-       
-            
+        director_obra = request.user  
         fecha_reserva = request.POST.get('fecha_reserva')
         estado = request.POST.get('estado', 'pendiente')
-        
         reserva = ReservaUtileria(
             obra=obra,
             utileria=utileria,
@@ -79,3 +69,44 @@ def reservar_utileria(request, utileria_id):
         'obras': obras,
     }
     return render(request, 'utileria/reservar_utileria.html', context)
+
+def lista_reserva_utileria(request):
+    reservas = ReservaUtileria.objects.all().order_by('estado', 'fecha_reserva')
+    
+    for reserva in reservas:
+        if reserva.estado == 'aprobada':
+            reserva.estado_color = 'text-green-500'
+        elif reserva.estado == 'pendiente':
+            reserva.estado_color = 'text-red-500'
+        else:
+            reserva.estado_color = 'text-red-500'
+            
+    context = {
+        'reservas': reservas,
+    }
+    return render(request, 'utileria/lista_reserva_utileria.html', context)
+
+def editar_reserva(request, reserva_id):
+    reserva = get_object_or_404(ReservaUtileria, id=reserva_id)
+    
+    if request.method == 'POST':
+        form = ReservaUtileriaForm(request.POST, instance=reserva)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_reserva_utileria')
+    else:
+        form = ReservaUtileriaForm(instance=reserva)
+    
+    context = {
+        'form': form,
+        'reserva': reserva,
+    }
+    return render(request, 'utileria/editar_reserva.html', context)
+
+def eliminar_reserva(request, reserva_id):
+    reserva = get_object_or_404(ReservaUtileria, id= reserva_id)
+    if request.method == 'POST':
+        reserva.delete()
+        messages.success(request, 'Reserva eliminada correctamente.')
+        return redirect('lista_reserva_utileria')
+    return render(request, 'utileria/eliminar_reserva.html', {'reserva': reserva})
