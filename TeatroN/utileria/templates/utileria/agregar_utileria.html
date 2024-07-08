@@ -2,18 +2,18 @@
 
 {% block content %}
 <div class="container mx-auto p-6">
-    <h2 class="text-2xl font-bold mb-6 text-center">Agregar Utilería</h2>
+    <h2 class="text-3xl font-bold text-gray-800 mb-4 text-center">Agregar Utilería</h2>
     
     <div class="max-w-lg mx-auto bg-white shadow-md rounded-lg overflow-hidden p-6">
         <form method="post" action="{% url 'agregar_utileria' %}">
             {% csrf_token %}
             <div class="mb-4">
                 <label for="codigo" class="block text-gray-700 text-sm font-bold mb-2">Código:</label>
-                <input type="text" id="codigo" name="codigo" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                <input type="text" id="codigo" name="codigo" class="shadow bg-indigo-50 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
             </div>
             <div class="mb-4">
                 <label for="descripcion" class="block text-gray-700 text-sm font-bold mb-2">Descripción:</label>
-                <textarea id="descripcion" name="descripcion" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required></textarea>
+                <textarea id="descripcion" name="descripcion" class="shadow bg-indigo-50 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required></textarea>
             </div>
             <div class="mt-4 flex justify-end">
                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200">
@@ -23,4 +23,5 @@
         </form>
     </div>
 </div>
+<a href="{% url 'listar_utilerias' %}" class="block text-blue-500 hover:text-blue-700 mt-4">&larr; Volver a la lista de utilerias</a>
 {% endblock %}

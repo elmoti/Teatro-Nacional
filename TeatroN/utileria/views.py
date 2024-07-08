@@ -1,21 +1,27 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Utileria, ReservaUtileria, ObraTeatro
-from .forms import ReservaUtileriaForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from datetime import datetime
 
+def yearcontext(request):
+    year = datetime.now().year
+    return render(request, 'utileria/base.html',{'year': year} )
 
 def home(request):
+    year = datetime.now().year
     return render(request, 'utileria/home.html')
 
 
 def acercade(request):
     return render(request, 'utileria/acercade.html')
 
+@login_required
 def listar_utilerias(request):
     utilerias = Utileria.objects.all()
     return render(request, 'utileria/listar_utilerias.html', {'utilerias': utilerias})
 
+@login_required
 def detalle_utileria(request, utileria_id):
     utileria = get_object_or_404(Utileria, pk=utileria_id)
 
@@ -25,6 +31,7 @@ def detalle_utileria(request, utileria_id):
 
     return render(request, 'utileria/detalle_utileria.html', {'utileria': utileria})
 
+@login_required
 def agregar_utileria(request):
     if request.method == 'POST':
         codigo = request.POST.get('codigo')
@@ -34,6 +41,7 @@ def agregar_utileria(request):
         return redirect('listar_utilerias')
     return render(request, 'utileria/agregar_utileria.html')
 
+@login_required
 def editar_utileria(request, utileria_id):
     utileria = get_object_or_404(Utileria, id=utileria_id)
     if request.method == 'POST':
@@ -70,6 +78,7 @@ def reservar_utileria(request, utileria_id):
     }
     return render(request, 'utileria/reservar_utileria.html', context)
 
+@login_required
 def lista_reserva_utileria(request):
     reservas = ReservaUtileria.objects.all().order_by('estado', 'fecha_reserva')
     
@@ -86,23 +95,18 @@ def lista_reserva_utileria(request):
     }
     return render(request, 'utileria/lista_reserva_utileria.html', context)
 
+@login_required
 def editar_reserva(request, reserva_id):
     reserva = get_object_or_404(ReservaUtileria, id=reserva_id)
     
     if request.method == 'POST':
-        form = ReservaUtileriaForm(request.POST, instance=reserva)
-        if form.is_valid():
-            form.save()
-            return redirect('lista_reserva_utileria')
-    else:
-        form = ReservaUtileriaForm(instance=reserva)
+        reserva.estado = request.POST.get('estado')
+        reserva.save()
+        return redirect('lista_reserva_utileria')
     
-    context = {
-        'form': form,
-        'reserva': reserva,
-    }
-    return render(request, 'utileria/editar_reserva.html', context)
+    return render(request, 'utileria/editar_reserva.html', { 'reserva': reserva })
 
+@login_required
 def eliminar_reserva(request, reserva_id):
     reserva = get_object_or_404(ReservaUtileria, id= reserva_id)
     if request.method == 'POST':

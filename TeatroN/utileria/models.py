@@ -59,11 +59,12 @@ class ReservaUtileria(models.Model):
     director_obra = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     fecha_reserva = models.DateField()
     fecha_aprobacion = models.DateField(null=True, blank=True)
-    estado = models.CharField(max_length=20, choices=[
+    choice =[
         ('pendiente', 'Pendiente'),
         ('aprobada', 'Aprobada'),
         ('denegada', 'Denegada'),
-    ], default='pendiente')
+    ]
+    estado = models.CharField(max_length=20, choices=choice, default='pendiente')
 
     def __str__(self):
         return f"Reserva de {self.utileria.codigo} para {self.obra.nombre}"

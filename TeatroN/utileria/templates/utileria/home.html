@@ -1,12 +1,71 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<nav>
-    <ul>
-        <li><a href="{% url 'listar_utilerias' %}">Lista de utileria</a></li>
-        <li><a href="{% url 'lista_usuarios' %}">Lista de Usuarios</a></li>
-        <li><a href="{% url 'lista_reserva_utileria' %}">Lista de reservas de utileria</a></li>
-        <li><a href="{% url 'listar_obra' %}">Lista de Obras de Teatro</a></li>
-        <li><a href="{% url 'listar_pelicula' %}">Lista de Peliculas</a></li>
-    </ul>
-</nav>
+<div class="container mx-auto mt-10">
+    <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Bienvenido al Teatro Nacional de Cuba</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="p-6 bg-white rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Cartelera de Eventos</h2>
+            <p class="text-gray-700">Explora nuestra cartelera para conocer los eventos y funciones que tenemos disponibles.</p>
+            <a href="{% url 'lista_evento' %}" class="block mt-4 text-blue-500 hover:text-blue-700">Ver Cartelera</a>
+        </div>
+
+        <div class="p-6 bg-white rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Obras Destacadas</h2>
+            <p class="text-gray-700">Descubre las obras de teatro que estamos presentando actualmente.</p>
+            <a href="{% url 'listar_obra' %}" class="block mt-4 text-blue-500 hover:text-blue-700">Ver Obras</a>
+        </div>
+
+        <div class="p-6 bg-white rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Películas en Cartelera</h2>
+            <p class="text-gray-700">No te pierdas las últimas películas que estamos exhibiendo en nuestro teatro.</p>
+            <a href="{% url 'lista_evento' %}" class="block mt-4 text-blue-500 hover:text-blue-700">Ver Películas</a>
+        </div>
+
+        <div class="p-6 bg-white rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Acerca del Teatro</h2>
+            <p class="text-gray-700">Conoce más sobre la historia y la misión del Teatro Nacional de Cuba.</p>
+            <a href="{% url 'acercade' %}" class="block mt-4 text-blue-500 hover:text-blue-700">Leer Más</a>
+        </div>
+
+        <div class="p-6 bg-white rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Promociones Especiales</h2>
+            <p class="text-gray-700">Aprovecha nuestras promociones especiales y descuentos en entradas.</p>
+            <a href="" class="block mt-4 text-blue-500 hover:text-blue-700">Ver Promociones</a>
+        </div>
+
+        <div class="p-6 bg-white rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Galería</h2>
+            <p class="text-gray-700">Echa un vistazo a nuestra galería de imágenes y descubre momentos destacados de nuestras presentaciones.</p>
+            <a href="" class="block mt-4 text-blue-500 hover:text-blue-700">Ver Galería</a>
+        </div>
+    </div>
+
+    <div class="mt-10 p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Últimas Noticias</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="p-4 bg-gray-50 rounded-lg shadow-md">
+                <img src="{% static 'utileria/images/noticia1.jpg'  %}" alt="Noticia 1" class="rounded-lg mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Ballet Nacional de Cuba presenta ‘El lago de los cisnes’ y otras obras en el Teatro Nacional</h3>
+                <p class="text-gray-700">El Ballet Nacional de Cuba, bajo la dirección de Viengsay Valdés, informó que continuará con sus presentaciones 
+                    en la Sala Avellaneda del Teatro Nacional, durante el mes de abril.....</p>
+                <a href="#" class="block mt-4 text-blue-500 hover:text-blue-700">Leer Más</a>
+            </div>
+            <div class="p-4 bg-gray-50 rounded-lg shadow-md">
+                <img src="{% static 'utileria/images/noticia2.jpg' %}" alt="Noticia 2" class="rounded-lg mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Talento y buen corazón</h3>
+                <p class="text-gray-700">"Jamás, ni remotamente", así respondió Tin Cremata cuando le preguntamos si alguna vez 
+                    imaginó que La Colmenita se convertiría en lo que es hoy...</p>
+                <a href="#" class="block mt-4 text-blue-500 hover:text-blue-700">Leer Más</a>
+            </div>
+            <div class="p-4 bg-gray-50 rounded-lg shadow-md">
+                <img src="{% static 'utileria/images/noticia3.jpg' %}" alt="Noticia 3" class="rounded-lg mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Grupo teatral cubano obtiene relevante distinción en Italia</h3>
+                <p class="text-gray-700">Impulso Teatro, grupo teatral cubano integrado mayoritariamente por jóvenes egresados de la Facultad de Arte Teatral de la Universidad de las Artes, recibió el pasado jueves el Primer Premio del jurado de los espectadores en la XIII Edición del 
+                    Premio Internacional “Il Teatro Nudo di Teresa Pomodoro”, con sede en la ciudad italiana de Milán...</p>
+                <a href="#" class="block mt-4 text-blue-500 hover:text-blue-700">Leer Más</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

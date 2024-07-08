@@ -1,17 +1,33 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <div class="container mx-auto p-6">
-    <h2 class="text-2xl font-bold mb-6 text-center">Editar Reserva de Utilería</h2>
+  <h2 class="text-3xl font-bold text-gray-800 mb-4 text-center">
+    Editar Reserva de Utilería
+  </h2>
+
+  <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+    <form method="post" class="max-w-lg mx-auto bg-white p-8 rounded-lg ">
+        {% csrf_token %}
+        
+        <div class="mb-4">
+            <label for="estado" class="block text-gray-700 text-sm font-bold mb-2">Estado de la Reserva:</label>
+            <select name="estado" id="estado" class="block w-full mt-1 bg-indigo-50 border border-gray-300 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <option value="pendiente" {% if reserva.estado == 'pendiente' %}selected{% endif %}>Pendiente</option>
+                <option value="aprobada" {% if reserva.estado == 'aprobada' %}selected{% endif %}>Aprobada</option>
+                <option value="denegada" {% if reserva.estado == 'denegada' %}selected{% endif %}>Denegada</option>
+            </select>
+        </div>
     
-    <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <div class="flex justify-end">
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Guardar Cambios</button>
-            </div>
-        </form>
-    </div>
+        <div class="flex justify-center">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Guardar Cambios
+            </button>
+        </div>
+    </form>
+  </div>
 </div>
+<a
+  href="{% url 'lista_reserva_utileria' %}"
+  class="block text-blue-500 hover:text-blue-700 mt-4"
+  >&larr; Volver a Lista de Reservas de utileria</a
+>
 {% endblock %}

@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from utileria.models import Sala, ObraTeatro
-from .models import Pelicula, ObraSala
+from .models import Pelicula
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 
 def listar_obra(request):
     obras = ObraTeatro.objects.all()
@@ -13,10 +15,7 @@ def listar_pelicula(request):
     peliculas = Pelicula.objects.all()
     return render(request, 'cartelera/peliculas.html', {'peliculas': peliculas})
 
-def listar_cartelera(request):
-    cartelera = ObraSala.objects.all()
-    return render(request, 'cartelera/cartelera.html', {'cartelera': cartelera})
-
+@login_required
 def agregar_obra_teatro(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
@@ -30,6 +29,7 @@ def agregar_obra_teatro(request):
         return redirect('listar_obra')
     return render(request, 'cartelera/agregar_obra_teatro.html')
 
+@login_required
 def editar_obra(request, obra_id):
     obra = get_object_or_404(ObraTeatro, id=obra_id)
     if request.method == 'POST':
@@ -41,13 +41,14 @@ def editar_obra(request, obra_id):
         obra.nombre = nombre
         obra.descripcion = descripcion
         obra.genero = genero
-        obra.imagen = imagen
-        
+        if obra:
+            obra.imagen = imagen
+            
         obra.save()
-        
         return redirect('listar_obra')
     return render(request, 'cartelera/editar_obra.html', {'obra': obra})
 
+@login_required
 def eliminar_obra(request, obra_id):
     obra = get_object_or_404(ObraTeatro, id=obra_id)
     if request.method == 'POST':
@@ -56,6 +57,7 @@ def eliminar_obra(request, obra_id):
         return redirect('listar_obra')
     return render(request, 'cartelera/eliminar_obra.html', {'obra': obra})
 
+@login_required
 def agregar_pelicula(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
@@ -69,6 +71,7 @@ def agregar_pelicula(request):
     
     return render(request, 'cartelera/agregar_pelicula.html')
 
+@login_required
 def editar_pelicula(request, pelicula_id):
     pelicula = get_object_or_404(Pelicula, id=pelicula_id)
     
@@ -81,12 +84,14 @@ def editar_pelicula(request, pelicula_id):
         pelicula.nombre = nombre
         pelicula.duracion = duracion
         pelicula.realizador = realizador
-        pelicula.imagen = imagen
-        
+        if imagen:
+            pelicula.imagen = imagen
+            
         pelicula.save()
         return redirect('listar_pelicula')
     return render(request, 'cartelera/editar_pelicula.html', {'pelicula': pelicula})
-    
+
+@login_required
 def eliminar_pelicula(request, pelicula_id):
     pelicula = get_object_or_404(Pelicula, id=pelicula_id)
     if request.method == 'POST':

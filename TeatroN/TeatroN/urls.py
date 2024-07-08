@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('login_signup.urls')),
     path('', include('cartelera.urls')),
+    path('', include('eventos.urls')),
     ]
 
 if settings.DEBUG:

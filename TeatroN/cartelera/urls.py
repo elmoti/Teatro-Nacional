@@ -11,7 +11,4 @@ urlpatterns = [
     path('home/pelicula/agregar', views.agregar_pelicula, name='agregar_pelicula'),
     path('home/peliculas/editar_pelicula/<int:pelicula_id>/', views.editar_pelicula, name='editar_pelicula'),
     path('home/pelicula/eliminar_pelicula/<int:pelicula_id>/', views.eliminar_pelicula, name='eliminar_pelicula'),
-    
-    path('home/cartelera', views.listar_cartelera, name='listar_cartelera'),
-    
 ]

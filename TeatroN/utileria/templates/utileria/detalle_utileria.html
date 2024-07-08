@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container mx-auto p-6">
-    <h2 class="text-2xl font-bold mb-6 text-center">Detalles de Utilería</h2>
+    <h2 class="text-3xl font-bold text-gray-800 mb-4 text-center">Detalles de Utilería</h2>
 
     <div class="max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden">
         <div class="px-6 py-4">
@@ -11,20 +11,25 @@
         </div>
         
         <div class="px-6 py-4 bg-gray-100 border-t border-gray-200 flex justify-between">
+            {% if request.user.rol == 'Utilero' or request.user.rol == 'Informatico' %}
             <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200" onclick="location.href='{% url 'editar_utileria' utileria.id %}'">
                 Editar
             </button>
-            
-            <button type="button" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded transition duration-200" onclick="location.href='{% url 'reservar_utileria' utileria.id %}'">
-                Reservar Utilería
-            </button>
-            
+
             <form method="post" class="inline-block">
                 {% csrf_token %}
                 <input type="submit" name="delete_utileria" value="Eliminar Utilería" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-200">
             </form>
+
+            {% endif %}
+            {% if request.user.rol == 'Director_Obra' or request.user.rol == 'Informatico' %}
+            <button type="button" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded transition duration-200" onclick="location.href='{% url 'reservar_utileria' utileria.id %}'">
+                Reservar Utilería
+            </button>
+            {% endif %}
         </div>
     </div>
+    <a href="{% url 'listar_utilerias' %}" class="block text-blue-500 hover:text-blue-700 mt-4">&larr; Volver a la lista de utilerias</a>
 </div>
 {% endblock %}
 

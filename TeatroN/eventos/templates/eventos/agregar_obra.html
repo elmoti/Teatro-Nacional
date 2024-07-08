@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+    <h2 class="text-3xl font-bold text-gray-800 mb-4 text-center">Agregar Obra de Teatro a la Cartelera</h2>
+    <form method="post">
+        {% csrf_token %}
+        
+        <label for="obra_teatro">Obra de Teatro:</label>
+        <select name="obra_teatro" id="obra_teatro">
+            {% for obra in obras_teatro %}
+            <option value="{{ obra.id }}">{{ obra.nombre }}</option>
+            {% endfor %}
+        </select><br><br>
+        
+        <label for="sala">Sala:</label>
+        <select name="sala" id="sala">
+            {% for sala in salas %}
+            <option value="{{ sala.id }}">{{ sala.nombre }}</option>
+            {% endfor %}
+        </select><br><br>
+        
+        <label for="fecha">Fecha:</label>
+        <input type="date" name="fecha" id="fecha"><br><br>
+        
+        <label for="hora">Hora:</label>
+        <input type="time" name="hora" id="hora"><br><br>
+        
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Guardar</button>
+    </form>
+</div>
+{% endblock %}

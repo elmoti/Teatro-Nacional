@@ -3,10 +3,6 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
 from .models import Usuario
 
-class UsuarioForm(forms.ModelForm):
-    class Meta:
-        model = Usuario
-        fields = ['nombre', 'email']
         
 class RegistroForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Requerido. Ingrese un correo válido.')
@@ -25,13 +21,10 @@ class RegistroForm(UserCreationForm):
 
 
 class LoginForm(AuthenticationForm):
-    username = forms.EmailField(label='Email', max_length=254, widget=forms.EmailInput(attrs={'placeholder': 'Correo Electrónico'}))
+    username = forms.EmailField(label='Email', max_length=254, widget=forms.EmailInput(attrs={
+        'placeholder': 'Correo Electrónico'
+        }))
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['password'].widget = forms.PasswordInput(attrs={'placeholder': 'Contraseña'})
-
-class EditarUsuarioForm(forms.ModelForm):
-    class Meta:
-        model = Usuario
-        fields = ['nombre', 'email', 'rol']
