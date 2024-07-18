@@ -1,6 +1,30 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
-    <h2>Acerca de</h2>
-    <p>pagina de información acerca de nuestra aplicación</p>
+<div class="bg-indigo-500 min-h-screen flex items-center justify-center">
+    <div class="bg-indigo-50 p-8 rounded-lg shadow-md w-full max-w-3xl flex flex-col items-center">
+        
+        <div class="mb-8 text-justify">
+            <p class="text-gray-700 text-lg leading-relaxed mb-6">
+                El Teatro Nacional de Cuba, ubicado en La Habana, es uno de los centros culturales más importantes del país. Fundado en 1979, el teatro tiene una rica historia en la promoción y difusión de las artes escénicas cubanas e internacionales.
+            </p>
+            
+            <p class="text-gray-700 text-lg leading-relaxed mb-6">
+                El Teatro Nacional alberga una variedad de espectáculos, incluyendo obras de teatro, danza, música y eventos culturales de diversa índole. Es reconocido por su arquitectura imponente y su importancia como espacio emblemático para la cultura cubana.
+            </p>
+            
+            <p class="text-gray-700 text-lg leading-relaxed">
+                Visitar el Teatro Nacional de Cuba es sumergirse en la rica tradición cultural del país, ofreciendo experiencias inolvidables tanto para los artistas como para el público que asiste a sus espectáculos.
+            </p>
+        </div>
+        
+        <div class="flex">
+            <img src="{% static 'utileria/images/teatro2.jpeg' %}" alt="Teatro Nacional de Cuba" class="rounded-lg w-1/2 mr-4">
+            <img src="{% static 'utileria/images/teatro.jpeg' %}" alt="Teatro Nacional de Cuba" class="rounded-lg w-1/2 ml-4">
+        </div>
+    </div>
+</div>
 {% endblock %}
+

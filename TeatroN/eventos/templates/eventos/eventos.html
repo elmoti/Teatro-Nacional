@@ -1,108 +1,72 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mx-auto p-6">
-    <h2 class="text-3xl font-bold text-gray-800 mb-4 text-center">Cartelera</h2>
+<div class="container mx-auto p-6 bg-blue-400 shadow-md rounded-lg">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Cartelera</h2>
     
-    <div class="mb-4">
-        <button id="btnTeatro" class="px-4 py-2 mr-2 bg-blue-500 text-white rounded hover:bg-blue-700" onclick="showSection('teatro')">Obras de Teatro</button>
-        <button id="btnPeliculas" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700" onclick="showSection('peliculas')">Películas</button>
+    <div class="flex justify-center mb-6">
+        <button id="btnTeatro" class="px-4 py-2 mr-2 bg-blue-500 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-opacity-50" onclick="showSection('teatro')">Obras de Teatro</button>
+        <button id="btnPeliculas" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-opacity-50" onclick="showSection('peliculas')">Películas</button>
     </div>
     
     <div id="teatro" class="section">
         <h2 class="text-gray-800 text-2xl font-semibold mb-4">Obras de Teatro</h2>
-        <div class="overflow-x-auto mb-6">
-            <table class="min-w-full bg-indigo-50 shadow-md rounded-lg overflow-hidden table-auto">
-                <thead>
-                    <tr class="bg-blue-500 text-white">
-                        <th class="py-2 px-4 border-b text-center">Nombre</th>
-                        <th class="py-2 px-4 border-b text-left">Sala</th>
-                        <th class="py-2 px-4 border-b text-left">Fecha</th>
-                        <th class="py-2 px-4 border-b text-left">Hora</th>
-                        <th class="py-2 px-4 border-b text-left"></th>
-                        <th class="py-2 px-4 border-b text-left"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for obra in eventos %}
-                    {% if obra.obra_teatro %}
-                <tr class="hover:bg-gray-100 text-gray-700">
-                    <td class="py-2 px-4 border-b text-left">
-                        <div class="flex flex-col items-center">
-                            <img src="{{ obra.obra_teatro.imagen.url }}" alt="" class="w-32 h-32 object-cover mb-2">
-                            <span>{{ obra.obra_teatro.nombre }}</span>
-                        </div>
-                    </td>
-                    <td class="py-2 px-4 border-b text-left">{{ obra.sala }}</td>
-                    <td class="py-2 px-4 border-b text-left">{{ obra.fecha }}</td>
-                    <td class="py-2 px-4 border-b text-left">{{ obra.hora }}</td>
-                    {% if request.user.rol == 'Administrador' or request.user.rol == 'Informatico' %}
-                    <td class="py-2 px-4 border-b text-left">
-                        <a href="" class="text-blue-500 hover:underline">Editar</a>
-                    </td>
-                    <td class="py-2 px-4 border-b text-left">
-                        <a href="" class="text-red-500 hover:underline">Eliminar</a>
-                    </td>
-                    {% endif %}
-                </tr>
-                    {%  endif  %}
-                {% endfor %}
-                </tbody>
-            </table>
-            {% if request.user.rol == 'Administrador' or request.user.rol == 'Informatico' %}
-            <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200 mt-4" onclick="location.href='{% url 'agregar_obra_teatroc' %}'">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for obra in eventos %}
+            {% if obra.obra_teatro %}
+            <div class="bg-blue-200 p-4 rounded-lg shadow-md">
+                <img src="{{ obra.obra_teatro.imagen.url }}" alt="" class="w-full h-48 object-contain rounded-lg mb-4">
+                <h3 class="text-lg font-semibold text-gray-800">{{ obra.obra_teatro.nombre }}</h3>
+                <p class="text-gray-600"><strong>Sala:</strong> {{ obra.sala }}</p>
+                <p class="text-gray-600"><strong>Fecha:</strong> {{ obra.fecha }}</p>
+                <p class="text-gray-600"><strong>Hora:</strong> {{ obra.hora }}</p>
+                {% if request.user.rol == 'Administrador' or request.user.rol == 'Informatico' %}
+                <div class="flex justify-between mt-4">
+                    <a href="" class="text-blue-500 hover:underline">Editar</a>
+                    <a href="" class="text-red-500 hover:underline">Eliminar</a>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% if request.user.rol == 'Administrador' or request.user.rol == 'Informatico' %}
+        <div class="flex justify-center mt-6">
+            <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200" onclick="location.href='{% url 'agregar_obra_teatroc' %}'">
                 Agregar Evento
             </button>
-            {%  endif  %}
         </div>
+        {% endif %}
     </div>
     
     <div id="peliculas" class="section" style="display: none;">
         <h2 class="text-gray-800 text-2xl font-semibold mb-4">Películas</h2>
-        <div class="overflow-x-auto">
-            <table class="min-w-full bg-indigo-50 shadow-md rounded-lg overflow-hidden">
-                <thead>
-                    <tr class="bg-blue-500 text-white">
-                        <th class="py-2 px-4 border-b text-center">Nombre</th>
-                        <th class="py-2 px-4 border-b text-left">Sala</th>
-                        <th class="py-2 px-4 border-b text-left">Fecha</th>
-                        <th class="py-2 px-4 border-b text-left">Hora</th>
-                        <th class="py-2 px-4 border-b text-left"></th>
-                        <th class="py-2 px-4 border-b text-left"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for obra in eventos %}
-                    {% if obra.pelicula %}
-                <tr class="hover:bg-gray-100 text-gray-700">
-                    <td class="py-2 px-4 border-b text-center">
-                        <div class="flex flex-col items-center">
-                            <img src="{{ obra.pelicula.imagen.url }}" alt="" class="w-32 h-32 object-cover mb-2">
-                            <span>{{ obra.pelicula.nombre }}</span>
-                        </div>
-                    </td>
-                    <td class="py-2 px-4 border-b text-left">{{ obra.sala }}</td>
-                    <td class="py-2 px-4 border-b text-left">{{ obra.fecha }}</td>
-                    <td class="py-2 px-4 border-b text-left">{{ obra.hora }}</td>
-                    {% if request.user.rol == 'Administrador' or request.user.rol == 'Informatico' %}
-                    <td class="py-2 px-4 border-b text-left">
-                        <a href="" class="text-blue-500 hover:underline">Editar</a>
-                    </td>
-                    <td class="py-2 px-4 border-b text-left">
-                        <a href="" class="text-red-500 hover:underline">Eliminar</a>
-                    </td>
-                    {%  endif  %}
-                </tr>
-                    {%  endif  %}
-                {% endfor %}
-                </tbody>
-            </table>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for obra in eventos %}
+            {% if obra.pelicula %}
+            <div class="bg-blue-200 p-4 rounded-lg shadow-md">
+                <img src="{{ obra.pelicula.imagen.url }}" alt="" class="w-full h-48 object-contain rounded-lg mb-4">
+                <h3 class="text-lg font-semibold text-gray-800">{{ obra.pelicula.nombre }}</h3>
+                <p class="text-gray-600"><strong>Sala:</strong> {{ obra.sala }}</p>
+                <p class="text-gray-600"><strong>Fecha:</strong> {{ obra.fecha }}</p>
+                <p class="text-gray-600"><strong>Hora:</strong> {{ obra.hora }}</p>
+                {% if request.user.rol == 'Administrador' or request.user.rol == 'Informatico' %}
+                <div class="flex justify-between mt-4">
+                    <a href="" class="text-blue-500 hover:underline">Editar</a>
+                    <a href="" class="text-red-500 hover:underline">Eliminar</a>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+            {% endfor %}
         </div>
         {% if request.user.rol == 'Administrador' or request.user.rol == 'Informatico' %}
-        <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200 mt-4" onclick="location.href='{% url 'agregar_obra_peliculac' %}'">
-            Agregar Evento
-        </button>
-        {%  endif  %}
+        <div class="flex justify-center mt-6">
+            <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200" onclick="location.href='{% url 'agregar_obra_peliculac' %}'">
+                Agregar Evento
+            </button>
+        </div>
+        {% endif %}
     </div>
 </div>
 

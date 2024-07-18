@@ -20,7 +20,9 @@
                     <div class="dropdown hover:text-gray-300 dropdown-hover dropdown-bottom">
                         <label tabindex="0" class="cursor-pointer">Más</label>
                         <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-blue-500 rounded-box w-52">
+                            {% if request.user.rol == 'Informatico' %}
                             <li><a href="{% url 'lista_usuarios' %}" class="text-white hover:text-gray-300">Lista de Usuarios</a></li>
+                            {% endif %}
                             {% if request.user.rol == 'Escenografo' or request.user.rol == 'Informatico' %}
                             <li><a href="{% url 'lista_reserva_utileria' %}" class="text-white hover:text-gray-300">Lista de reservas de utilería</a></li>
                             {% endif %}
@@ -35,7 +37,7 @@
                 </nav>
             </div>
 
-            <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-10">
                 {% if user %}
                     <p class="hidden md:block">Hola, {{ user.nombre }}. Bienvenido a la página web del Teatro Nacional de Cuba.</p>
                     <nav class="hidden md:flex space-x-4">
@@ -46,7 +48,12 @@
                         <button type="submit" class="bg-white text-blue-500 px-4 py-2 rounded-md hover:bg-blue-100">Logout</button>
                     </form>
                 {% else %}
+                    <div>
                     <p class="hidden md:block">Hola, Bienvenido a la página web del Teatro Nacional de Cuba</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button onclick="window.location.href='{% url 'login' %}'">Iniciar Sesión</button>
+                    </div>
                 {% endif %}
             </div>
         </div>

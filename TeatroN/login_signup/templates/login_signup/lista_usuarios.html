@@ -25,7 +25,7 @@
                             <a href="{% url 'editar_usuario' usuario.id %}" class="text-blue-500 hover:underline">Editar</a>
                         </td>
                         <td class="py-2 px-4 border-b flex space-x-2 text-left">
-                            <a href="{% url 'eliminar_usuario' usuario.id %}" class="text-red-500 hover:underline" onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?');">Eliminar</a>
+                            <a href="{% url 'eliminar_usuario' usuario.id %}" class="text-red-500 hover:underline">Eliminar</a>
                         </td>
                     </tr>
                     {% endfor %}

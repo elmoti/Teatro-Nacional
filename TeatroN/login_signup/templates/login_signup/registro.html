@@ -1,16 +1,35 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Registro</title>
-</head>
-<body>
-    <h2>Registro</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Registrar</button>
-    </form>
-    <a href="{% url 'login' %}"><button type="button">Regresar al Login</button></a>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="bg-indigo-500 min-h-screen flex items-center justify-center">
+    <div class="bg-indigo-50 p-8 rounded-lg shadow-md w-full max-w-md">
+        <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Registro</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="nombre" class="block text-gray-700">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required placeholder="Ingrese su nombre completo" class="text-gray-800 bg-indigo-100 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700">Email:</label>
+                <input type="email" id="email" name="email" required placeholder="Ingrese un correo válido" class="text-gray-800 bg-indigo-100 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+            </div>
+            <div class="mb-4">
+                <label for="contrasena" class="block text-gray-700">Password:</label>
+                <input type="password" id="contrasena" name="contrasena" required placeholder="Ingrese su contraseña" class="text-gray-800 bg-indigo-100 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+            </div>
+            <div class="mb-6">
+                <label for="confirmar_contrasena" class="block text-gray-700">Confirmar contraseña:</label>
+                <input type="password" id="confirmar_contrasena" name="confirmar_contrasena" required placeholder="Confirme su contraseña" class="text-gray-800 bg-indigo-100 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+            </div>
+            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300">Registrar</button>
+            <div class="text-center mt-4">
+                <a href="{% url 'login' %}" class="text-blue-600 hover:underline">Regresar al Login</a>
+            </div>
+        </form>
+        {% for message in messages %}
+        <p class="text-red-500 mt-4">{{ message }}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

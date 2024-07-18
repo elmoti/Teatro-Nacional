@@ -9,7 +9,7 @@
                 {% csrf_token %}
                 <div class="mb-4">
                     <label for="obra_id" class="block text-gray-700 text-sm font-bold mb-2">Obra de Teatro:</label>
-                    <select name="obra_id" id="obra_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    <select name="obra_id" id="obra_id" class="bg-indigo-50 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                         {% for obra in obras %}
                             <option value="{{ obra.id }}">{{ obra.nombre }}</option>
                         {% endfor %}
@@ -17,8 +17,8 @@
                 </div>
                 <div class="mb-4">
                     <label for="fecha_reserva" class="block text-gray-700 text-sm font-bold mb-2">Fecha de Reserva:</label>
-                    <input type="date" id="fecha_reserva" name="fecha_reserva" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-                </div>
+                    <input type="date" id="fecha_reserva" name="fecha_reserva" class="bg-indigo-50 shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                </div>                
                 <input type="hidden" name="estado" value="pendiente">
                 <div class="flex justify-end">
                     <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200">

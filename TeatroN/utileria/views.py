@@ -114,3 +114,13 @@ def eliminar_reserva(request, reserva_id):
         messages.success(request, 'Reserva eliminada correctamente.')
         return redirect('lista_reserva_utileria')
     return render(request, 'utileria/eliminar_reserva.html', {'reserva': reserva})
+
+@login_required
+def eliminar_utileria(request, utileria_id):
+    utileria = get_object_or_404(Utileria, id= utileria_id)
+    reserva = ReservaUtileria.objects.all()
+    if request.method == 'POST':
+        utileria.delete()
+        messages.success(request, 'Reserva eliminada correctamente.')
+        return redirect('detalle_utileria')
+    return render(request, 'utileria/eliminar_utileria.html', {'utileria': utileria , 'reserva': reserva})
